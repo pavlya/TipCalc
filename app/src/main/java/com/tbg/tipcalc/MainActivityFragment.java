@@ -63,6 +63,7 @@ public class MainActivityFragment extends Fragment {
                 arrayAdapter.notifyDataSetChanged();
             }
         });
+
         return parentView;
     }
 
