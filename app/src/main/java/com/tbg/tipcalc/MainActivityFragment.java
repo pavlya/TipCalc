@@ -29,6 +29,7 @@ public class MainActivityFragment extends Fragment {
     private ArrayList wordsList;
     private ArrayAdapter arrayAdapter;
     private Button btnTest;
+    private ArrayList<FoodItem> foodItems;
     public MainActivityFragment() {
     }
 
@@ -47,8 +48,12 @@ public class MainActivityFragment extends Fragment {
         wordsList.add("Hello");
         wordsList.add("Hello");
         wordsList.add("Hello");
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1,wordsList );
+
+        foodItems = new ArrayList<>();
+        // add first entry
+        foodItems.add(new FoodItem());
+        arrayAdapter = new ArrayAdapter<FoodItem>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, foodItems);
         lvItems.setAdapter(arrayAdapter);
         btnTest = (Button) parentView.findViewById(R.id.btn_test);
         btnTest.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +64,10 @@ public class MainActivityFragment extends Fragment {
             }
         });
         return parentView;
+    }
+
+    public void addFoodItem(){
+        foodItems.add(new FoodItem());
     }
     class TipTextWatcher implements TextWatcher {
         @Override
