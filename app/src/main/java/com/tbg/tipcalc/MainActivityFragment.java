@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,9 +26,8 @@ public class MainActivityFragment extends Fragment {
     private SeekBar percentSeekBar;
     private ListView lvItems;
     private ArrayList wordsList;
-    private ArrayAdapter arrayAdapter;
-    private Button btnTest;
     private ArrayList<FoodItem> foodItems;
+    private TipAdapter tipAdapter;
     public MainActivityFragment() {
     }
 
@@ -44,30 +42,27 @@ public class MainActivityFragment extends Fragment {
         percentSeekBar.setOnSeekBarChangeListener(new PercentSeekBarChangeListener());
         etAmount.addTextChangedListener(new TipTextWatcher());
         lvItems = (ListView)parentView.findViewById(R.id.lv_items);
-        wordsList = new ArrayList();
-        wordsList.add("Hello");
-        wordsList.add("Hello");
-        wordsList.add("Hello");
-
         foodItems = new ArrayList<>();
         // add first entry
         foodItems.add(new FoodItem());
-        arrayAdapter = new ArrayAdapter<FoodItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, foodItems);
-        lvItems.setAdapter(arrayAdapter);
-        btnTest = (Button) parentView.findViewById(R.id.btn_test);
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wordsList.add("Hello");
-                arrayAdapter.notifyDataSetChanged();
-            }
-        });
-
+        tipAdapter = new TipAdapter(getActivity(),
+                R.layout.food_item, foodItems, this);
+        lvItems.setAdapter(tipAdapter);
+        tipAdapter = new TipAdapter(getActivity(),R.layout.food_item, foodItems, this );
         return parentView;
     }
 
-    public void addFoodItem(){
+    public void addArrayItemAndUpdateArrayAdapter() {
+        addFoodItem();
+//        tipAdapter.clear();
+//        tipAdapter.addAll(foodItems);
+//        tipAdapter.notifyDataSetChanged();
+        tipAdapter = new TipAdapter(getActivity(),
+                R.layout.food_item, foodItems, this);
+        lvItems.setAdapter(tipAdapter);
+    }
+
+    private void addFoodItem(){
         foodItems.add(new FoodItem());
     }
     class TipTextWatcher implements TextWatcher {
@@ -106,7 +101,9 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    private void calculatePercent() {
+    public void calculatePercent() {
+        // TODO iterate over all items in adapter and calculate overall tip value
+        // TODO implement textWatcher in adapter
         if(etAmount.getText().length() > 0) {
             float number = Float.parseFloat(String.valueOf(etAmount.getText()));
             float percent = 1 + (float) percentSeekBar.getProgress() / 100;
@@ -116,5 +113,9 @@ public class MainActivityFragment extends Fragment {
         } else{
             tvResult.setText("Enter the check value.");
         }
+    }
+
+    public void updateItemPrice(int itemPosition, float price){
+        this.foodItems.set(itemPosition, new FoodItem(price));
     }
 }
