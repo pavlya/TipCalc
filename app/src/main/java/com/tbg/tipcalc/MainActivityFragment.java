@@ -57,6 +57,7 @@ public class MainActivityFragment extends Fragment {
 //        tipAdapter.clear();
 //        tipAdapter.addAll(foodItems);
 //        tipAdapter.notifyDataSetChanged();
+
         tipAdapter = new TipAdapter(getActivity(),
                 R.layout.food_item, foodItems, this);
         lvItems.setAdapter(tipAdapter);
