@@ -40,7 +40,7 @@ public class MainActivityFragment extends Fragment {
         tvResult = (TextView) parentView.findViewById(R.id.tv_summary);
         percentSeekBar = (SeekBar)parentView.findViewById(R.id.sbar_percent);
         percentSeekBar.setOnSeekBarChangeListener(new PercentSeekBarChangeListener());
-        etAmount.addTextChangedListener(new TipTextWatcher());
+//        etAmount.addTextChangedListener(new TipTextWatcher());
         lvItems = (ListView)parentView.findViewById(R.id.lv_items);
         foodItems = new ArrayList<>();
         // add first entry
@@ -104,18 +104,33 @@ public class MainActivityFragment extends Fragment {
     public void calculatePercent() {
         // TODO iterate over all items in adapter and calculate overall tip value
         // TODO implement textWatcher in adapter
-        if(etAmount.getText().length() > 0) {
-            float number = Float.parseFloat(String.valueOf(etAmount.getText()));
-            float percent = 1 + (float) percentSeekBar.getProgress() / 100;
+//        if(etAmount.getText().length() > 0) {
+//            float number = Float.parseFloat(String.valueOf(etAmount.getText()));
+//            float percent = 1 + (float) percentSeekBar.getProgress() / 100;
+//
+//            float summary = number * percent;
+//            tvResult.setText("You should pay: " + summary);
+//        } else{
+//            tvResult.setText("Enter the check value.");
+//        }
 
-            float summary = number * percent;
-            tvResult.setText("You should pay: " + summary);
-        } else{
-            tvResult.setText("Enter the check value.");
+        float totalCheck = 0;
+        float totalToPay = 0;
+        float totalTip = 0;
+        for(FoodItem item: foodItems){
+            totalCheck += item.getValue();
+        }
+        totalTip = totalCheck * ((float)percentSeekBar.getProgress() /100);
+        totalToPay = totalCheck + totalTip;
+        if(totalToPay <= 0){
+            tvResult.setText("Enter rhe check value");
+        } else {
+            tvResult.setText("You should pay: " + totalToPay);
         }
     }
 
     public void updateItemPrice(int itemPosition, float price){
         this.foodItems.set(itemPosition, new FoodItem(price));
+        calculatePercent();
     }
 }

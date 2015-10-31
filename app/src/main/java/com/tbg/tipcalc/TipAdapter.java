@@ -77,7 +77,9 @@ public class TipAdapter extends ArrayAdapter<FoodItem> {
 
         @Override
         public void afterTextChanged(Editable s) {
-
+            String quantityString = s.toString().trim();
+            float amount = quantityString.equals("") ?0: Float.valueOf(quantityString);
+            activityFragment.updateItemPrice(itemPosition, amount);
         }
     }
 
