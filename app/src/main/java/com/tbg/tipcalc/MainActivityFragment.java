@@ -1,33 +1,41 @@
 package com.tbg.tipcalc;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
 
-    private TextView textViewHello;
-    private EditText etAmount;
     private TextView tvResult;
+    private TextView tvTipPercent;
     private SeekBar percentSeekBar;
     private ListView lvItems;
-    private ArrayList wordsList;
     private ArrayList<FoodItem> foodItems;
     private TipAdapter tipAdapter;
+    private ArrayAdapter<String> testAdapter;
+    private final static int MAX_ITEMS_COUNT = 4;
+    private List<String> testStrings;
+
     public MainActivityFragment() {
     }
 
@@ -35,53 +43,51 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_main, container, false);
-        textViewHello = (TextView) parentView.findViewById(R.id.tv_hello);
-        etAmount = (EditText) parentView.findViewById(R.id.et_amount);
         tvResult = (TextView) parentView.findViewById(R.id.tv_summary);
         percentSeekBar = (SeekBar)parentView.findViewById(R.id.sbar_percent);
         percentSeekBar.setOnSeekBarChangeListener(new PercentSeekBarChangeListener());
-//        etAmount.addTextChangedListener(new TipTextWatcher());
         lvItems = (ListView)parentView.findViewById(R.id.lv_items);
         foodItems = new ArrayList<>();
         // add first entry
         foodItems.add(new FoodItem());
+        foodItems.add(new FoodItem());
+        testStrings = new ArrayList<>();
+        testStrings.add("Hello");
+        tvTipPercent = (TextView)parentView.findViewById(R.id.tv_tip_percent);
+        // some tricks with layouts
+//        LayoutInflater layoutInflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        RelativeLayout relativeLayout = (RelativeLayout)parentView.findViewById(R.id.rl_list_container);
+        View linearLayout = parentView.findViewById(R.id.ll_results);
+        lvItems.addFooterView(linearLayout);
         tipAdapter = new TipAdapter(getActivity(),
                 R.layout.food_item, foodItems, this);
-        lvItems.setAdapter(tipAdapter);
-        tipAdapter = new TipAdapter(getActivity(),R.layout.food_item, foodItems, this );
+//        testAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, testStrings);
+//        lvItems.setAdapter(testAdapter);
+//        lvItems.setAdapter(tipAdapter);
+        updateTipPercentView();
         return parentView;
+    }
+
+    private void updateTipPercentView() {
+        String percentString = percentSeekBar.getProgress() + " %";
+        tvTipPercent.setText(percentString);
+    }
+
+    public void testAddArrayItemAndUpdateArrayAdapter() {
+        testStrings.add("Hello");
+        testAdapter.notifyDataSetChanged();
     }
 
     public void addArrayItemAndUpdateArrayAdapter() {
         addFoodItem();
-//        tipAdapter.clear();
-//        tipAdapter.addAll(foodItems);
-//        tipAdapter.notifyDataSetChanged();
-
         tipAdapter = new TipAdapter(getActivity(),
-                R.layout.food_item, foodItems, this);
+                    R.layout.food_item, foodItems, this);
         lvItems.setAdapter(tipAdapter);
+        Log.d("MyApp", "MainActivityFragment.addArrayItemAndUpdateArrayAdapter");
     }
 
     private void addFoodItem(){
         foodItems.add(new FoodItem());
-    }
-    class TipTextWatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            calculatePercent();
-        }
-
     }
 
     private class PercentSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener{
@@ -89,6 +95,7 @@ public class MainActivityFragment extends Fragment {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             calculatePercent();
+            updateTipPercentView();
         }
 
         @Override
@@ -105,24 +112,11 @@ public class MainActivityFragment extends Fragment {
     public void calculatePercent() {
         // TODO iterate over all items in adapter and calculate overall tip value
         // TODO implement textWatcher in adapter
-//        if(etAmount.getText().length() > 0) {
-//            float number = Float.parseFloat(String.valueOf(etAmount.getText()));
-//            float percent = 1 + (float) percentSeekBar.getProgress() / 100;
-//
-//            float summary = number * percent;
-//            tvResult.setText("You should pay: " + summary);
-//        } else{
-//            tvResult.setText("Enter the check value.");
-//        }
 
         float totalCheck = 0;
         float totalToPay = 0;
         float totalTip = 0;
-        for(FoodItem item: foodItems){
-            totalCheck += item.getValue();
-        }
-        totalTip = totalCheck * ((float)percentSeekBar.getProgress() /100);
-        totalToPay = totalCheck + totalTip;
+
         if(totalToPay <= 0){
             tvResult.setText("Enter rhe check value");
         } else {
@@ -130,8 +124,13 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    public void updateItemPrice(int itemPosition, float price){
-        this.foodItems.set(itemPosition, new FoodItem(price));
+    private void updateFoodItemsList() {
+
+    }
+
+    public void updateItemPrice(){
+        // TODO iterate over all items in list view and get the value of the item
         calculatePercent();
+
     }
 }

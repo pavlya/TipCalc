@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -39,48 +41,12 @@ public class TipAdapter extends ArrayAdapter<FoodItem> {
 
         FoodItem item = items.get(position);
         if (item != null){
-            EditText etPrice = (EditText)myView.findViewById(R.id.et_item_price);
+            TextView etPrice = (TextView)myView.findViewById(R.id.tv_item_price);
             etPrice.setText(String.valueOf(item.getValue()));
-            etPrice.addTextChangedListener(new TipAdapTerTextWatcher(position));
+//            etPrice.addTextChangedListener(new TipAdapTerTextWatcher());
         }
 
         return myView;
-    }
-
-    private void calculateChanges(){
-        // TODO implement calculations
-        activityFragment.calculatePercent();
-    }
-
-//    @Override
-//    public int getCount() {
-//        return items.size();
-//    }
-
-    private class TipAdapTerTextWatcher implements TextWatcher {
-        private int itemPosition;
-
-        public TipAdapTerTextWatcher(int itemPosition){
-            super();
-            this.itemPosition= itemPosition;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            String quantityString = s.toString().trim();
-            float amount = quantityString.equals("") ?0: Float.valueOf(quantityString);
-            activityFragment.updateItemPrice(itemPosition, amount);
-        }
     }
 
 }

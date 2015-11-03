@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:layout_gravity="center"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
@@ -11,11 +12,20 @@
         android:text="Price: "
         android:id="@+id/textView2" />
 
-    <EditText
+    <TextView
+        android:layout_gravity="center"
         android:layout_weight="4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/et_item_price" />
+        android:id="@+id/tv_item_price" />
+
+    <ImageButton
+        android:layout_gravity="center"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"
+        android:id="@+id/imageButton" />
 </LinearLayout>

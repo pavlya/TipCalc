@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivityFragment mainActivityFragment =
                         (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
                 mainActivityFragment.addArrayItemAndUpdateArrayAdapter();
+//                mainActivityFragment.testAddArrayItemAndUpdateArrayAdapter();
             }
         });
     }
