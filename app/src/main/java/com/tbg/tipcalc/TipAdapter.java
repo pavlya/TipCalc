@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class TipAdapter extends ArrayAdapter<FoodItem> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View myView = convertView;
         if(myView == null){
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,8 +42,15 @@ public class TipAdapter extends ArrayAdapter<FoodItem> {
 
         FoodItem item = items.get(position);
         if (item != null){
-            TextView etPrice = (TextView)myView.findViewById(R.id.tv_item_price);
-            etPrice.setText(String.valueOf(item.getValue()));
+            ImageButton btnRemove = (ImageButton)myView.findViewById(R.id.ib_remove);
+            TextView tvItemPrice = (TextView)myView.findViewById(R.id.tv_item_price);
+            tvItemPrice.setText(String.valueOf(item.getValue()));
+            btnRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activityFragment.removeItem(position);
+                }
+            });
 //            etPrice.addTextChangedListener(new TipAdapTerTextWatcher());
         }
 

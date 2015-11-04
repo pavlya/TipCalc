@@ -43,11 +43,6 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_list_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <LinearLayout
             android:id="@+id/ll_results"
             android:layout_width="match_parent"
@@ -55,27 +50,101 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_gravity="center"
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/to_pay"
+                android:text="@string/bill"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/tv_summary"
+                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/tip"
+                android:id="@+id/textView6" />
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/total"
+                android:id="@+id/textView7" />
+
         </LinearLayout>
 
-        <ListView
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/tv_bill" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/tv_tip_value" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:text="0"
+            android:id="@+id/tv_summary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </LinearLayout>
+
+    <ListView
             android:layout_above="@+id/ll_results"
             android:id="@+id/lv_items"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/price"
+            android:id="@+id/textView3" />
+
+        <EditText
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/et_amount" />
+
+        <ImageButton
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_add"
+            android:id="@+id/ib_addItem" />
+    </LinearLayout>
+
 
 </LinearLayout>
