@@ -14,7 +14,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,9 @@ public class MainActivityFragment extends Fragment {
     private List<String> testStrings;
     private EditText etAmount;
     private ImageButton ibAdd;
+    private DecimalFormat decimalFormat;
+    private int maxItemPriceLength;
+    private String itemPriceLongValue;
 
     public MainActivityFragment() {
     }
@@ -44,6 +49,19 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_main, container, false);
+        initViews(parentView);
+
+        foodItems = new ArrayList<>();
+        updateAdapter();
+        etAmount.addTextChangedListener(new TipTextWatcher());
+        updateTipPercentView();
+        // Using to format values
+        decimalFormat = new DecimalFormat("#.00");
+        itemPriceLongValue = getResources().getString(R.string.item_price_length);
+        return parentView;
+    }
+
+    private void initViews(View parentView) {
         tvTotalValue = (TextView) parentView.findViewById(R.id.tv_summary);
         tvBillValue = (TextView)parentView.findViewById(R.id.tv_bill);
         tvTipValue = (TextView)parentView.findViewById(R.id.tv_tip_value);
@@ -54,15 +72,6 @@ public class MainActivityFragment extends Fragment {
         tvTipPercent = (TextView)parentView.findViewById(R.id.tv_tip_percent);
         ibAdd = (ImageButton)parentView.findViewById(R.id.ib_addItem);
         ibAdd.setOnClickListener(new AddButtonClickListener());
-
-        foodItems = new ArrayList<>();
-        // add first entry
-        testStrings = new ArrayList<>();
-        testStrings.add("Hello");
-        updateAdapter();
-        etAmount.addTextChangedListener(new TipTextWatcher());
-        updateTipPercentView();
-        return parentView;
     }
 
     private void updateTipPercentView() {
@@ -143,9 +152,10 @@ public class MainActivityFragment extends Fragment {
             tvTipValue.setText("0");
             tvBillValue.setText("0");
         } else {
-            tvTotalValue.setText(String.valueOf(totalToPay));
-            tvBillValue.setText(String.valueOf(totalCheck));
-            tvTipValue.setText(String.valueOf(totalTip));
+            // Format values using decimal format
+            tvTotalValue.setText(String.valueOf(decimalFormat.format(totalToPay)));
+            tvBillValue.setText(String.valueOf(decimalFormat.format(totalCheck)));
+            tvTipValue.setText(String.valueOf(decimalFormat.format(totalTip)));
         }
     }
 
@@ -167,8 +177,14 @@ public class MainActivityFragment extends Fragment {
             float price;
             if(numberString != null && numberString.length() >0){
                 price = Float.valueOf(numberString);
-                if(price >0){
+                maxItemPriceLength = 6;
+                if(numberString.length() > maxItemPriceLength){
+                    Toast.makeText(getContext(), itemPriceLongValue, Toast.LENGTH_SHORT ).show();
+                }
+                else if(price > 0){
                     addArrayItemAndUpdateArrayAdapter(price);
+                    // empty EditText view
+                    etAmount.setText("");
                 }
             }
 
