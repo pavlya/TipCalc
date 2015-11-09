@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tip Calculator</string>
+    <string name="app_name">טיפ</string>
+    <string name="ten_percents">10%</string>
+    <string name="tip">טיפ</string>
+    <string name="to_pay">לתשלום</string>
+    <string name="to_tip">טיפ</string>
+    <string name="total">סה"כ</string>
+    <string name="price">מחיר</string>
+    <string name="item_price_length">אנא הזן מחיר יותר קצר</string>
+    <string name="fifteen_percent">15</string>
+    <string name="custom_percent">אחוז</string>
+    <string name="bill">חשבון</string>
+    <string name="amount">כמות</string>
+    <string name="Total">סה"כ</string>
+    <string name="action_settings">הגדרות</string>
 </resources>

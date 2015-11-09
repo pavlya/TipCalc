@@ -16,6 +16,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,10 @@ public class MainActivityFragment extends Fragment {
         tvTipPercent = (TextView)parentView.findViewById(R.id.tv_tip_percent);
         ibAdd = (ImageButton)parentView.findViewById(R.id.ib_addItem);
         ibAdd.setOnClickListener(new AddButtonClickListener());
+
+        AdView mAdView = (AdView) parentView.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void updateTipPercentView() {

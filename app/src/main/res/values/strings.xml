@@ -9,9 +9,11 @@
         <string name="fifteen_percent">15 %</string>
         <string name="tip">Tip</string>
         <string name="Total">Total</string>
-    <string name="price">Price:</string>
+    <string name="price">Price</string>
     <string name="total">Total</string>
     <string name="bill">Bill</string>
     <string name="item_price_length">Please enter a shorter price</string>
     <string name="to_tip">Tip</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3004828240532820/4566426790</string>
+    <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
 </resources>
